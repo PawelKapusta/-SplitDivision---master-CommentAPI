@@ -2,15 +2,8 @@ import express from "express";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
-import {
-  CommentAttributes,
-  ErrorType,
-  SubcommentAttributes,
-  UpdateSubcommentRequest,
-} from "../constants/constants";
-import SubComment from "../models/subcommentModel";
+import { ErrorType, SubcommentAttributes, UpdateSubcommentRequest } from "../constants/constants";
 import Subcomment from "../models/subcommentModel";
-import Comment from "../models/commentModel";
 
 const router = express.Router();
 
@@ -18,7 +11,7 @@ router.get(
   "/api/v1/subcomments",
   async (req: Request, res: Response<SubcommentAttributes[] | ErrorType>) => {
     try {
-      const subcomments: SubcommentAttributes[] = await SubComment.findAll();
+      const subcomments: SubcommentAttributes[] = await Subcomment.findAll();
 
       if (!subcomments) {
         return res.status(404).send("Subcomments not found");

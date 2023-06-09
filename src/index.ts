@@ -6,6 +6,7 @@ import helmet from "helmet";
 import * as dotenv from "dotenv";
 import { sequelize } from "./database/config";
 import commentRouter from "./routers/commentRouter";
+import subcommentRouter from "./routers/subcommentRouter";
 import { consoleLogger } from "./utils/logger";
 
 dotenv.config();
@@ -37,11 +38,11 @@ app.get("/api/v1/comments/bill/:id", commentRouter);
 app.post("/api/v1/comments", commentRouter);
 app.put("/api/v1/comments/:id", commentRouter);
 app.delete("/api/v1/comments/:id", commentRouter);
-app.get("/api/v1/subcomments", commentRouter);
-app.get("/api/v1/subcomments/:id", commentRouter);
-app.post("/api/v1/subcomments", commentRouter);
-app.put("/api/v1/subcomments/:id", commentRouter);
-app.delete("/api/v1/subcomments/:id", commentRouter);
+app.get("/api/v1/subcomments", subcommentRouter);
+app.get("/api/v1/subcomments/:id", subcommentRouter);
+app.post("/api/v1/subcomments", subcommentRouter);
+app.put("/api/v1/subcomments/:id", subcommentRouter);
+app.delete("/api/v1/subcomments/:id", subcommentRouter);
 
 app.listen(port, () => {
   consoleLogger.info("Starting running CommentAPI app...");
