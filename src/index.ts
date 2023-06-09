@@ -31,17 +31,17 @@ app.get("/", (req, res) => {
   res.send("Hello World! from Comment API");
 });
 
-//comments and subcomments
-app.get("/comments", commentRouter);
-app.get("/comments/:id", commentRouter);
-app.post("/comments", commentRouter);
-app.put("/comments/:id", commentRouter);
-app.delete("/comments/:id", commentRouter);
-app.get("/subcomments", commentRouter);
-app.get("/subcomments/:id", commentRouter);
-app.post("/subcomments", commentRouter);
-app.put("/subcomments/:id", commentRouter);
-app.delete("/subcomments/:id", commentRouter);
+app.get("/api/v1/comments", commentRouter);
+app.get("/api/v1/comments/:id", commentRouter);
+app.get("/api/v1/comments/bill/:id", commentRouter);
+app.post("/api/v1/comments", commentRouter);
+app.put("/api/v1/comments/:id", commentRouter);
+app.delete("/api/v1/comments/:id", commentRouter);
+app.get("/api/v1/subcomments", commentRouter);
+app.get("/api/v1/subcomments/:id", commentRouter);
+app.post("/api/v1/subcomments", commentRouter);
+app.put("/api/v1/subcomments/:id", commentRouter);
+app.delete("/api/v1/subcomments/:id", commentRouter);
 
 app.listen(port, () => {
   consoleLogger.info("Starting running CommentAPI app...");

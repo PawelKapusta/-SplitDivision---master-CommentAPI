@@ -70,3 +70,8 @@ export type UpdateSubcommentRequest = {
   };
   body: Partial<SubcommentAttributes>;
 };
+
+export interface CommentsSubcommentsBillResponse {
+  commentsBill: CommentAttributes[];
+  subcommentsBill: SubcommentAttributes[];
+}

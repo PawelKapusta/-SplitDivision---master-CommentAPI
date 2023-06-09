@@ -2,8 +2,15 @@ import express from "express";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
-import { ErrorType, CommentAttributes, UpdateCommentRequest } from "../constants/constants";
+import {
+  ErrorType,
+  CommentAttributes,
+  UpdateCommentRequest,
+  SubcommentAttributes,
+  CommentsSubcommentsBillResponse,
+} from "../constants/constants";
 import Comment from "../models/commentModel";
+import Subcomment from "../models/subcommentModel";
 
 const router = express.Router();
 
@@ -39,6 +46,42 @@ router.get(
       }
 
       return res.status(200).json(comment);
+    } catch (error) {
+      logger.error(error.stack);
+      logger.error(error.message);
+      logger.error(error.errors[0].message);
+      return res.status(500).json({ error: error.errors[0].message });
+    }
+  },
+);
+
+router.get(
+  "/api/v1/comments/bill/:id",
+  async (req: Request, res: Response<CommentsSubcommentsBillResponse | ErrorType>) => {
+    const billId: string = req.params.id;
+    try {
+      const commentsBill: CommentAttributes[] = await Comment.findAll({
+        where: {
+          bill_id: billId,
+        },
+      });
+
+      const subcommentsBill: SubcommentAttributes[] = await Subcomment.findAll({
+        where: {
+          bill_id: billId,
+        },
+      });
+
+      const responseData: CommentsSubcommentsBillResponse = {
+        commentsBill,
+        subcommentsBill,
+      };
+
+      if (!responseData) {
+        return res.status(404).send("Comments and subcomments not found");
+      }
+
+      return res.status(200).json(responseData);
     } catch (error) {
       logger.error(error.stack);
       logger.error(error.message);

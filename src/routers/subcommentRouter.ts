@@ -2,9 +2,15 @@ import express from "express";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
-import { ErrorType, SubcommentAttributes, UpdateSubcommentRequest } from "../constants/constants";
+import {
+  CommentAttributes,
+  ErrorType,
+  SubcommentAttributes,
+  UpdateSubcommentRequest,
+} from "../constants/constants";
 import SubComment from "../models/subcommentModel";
 import Subcomment from "../models/subcommentModel";
+import Comment from "../models/commentModel";
 
 const router = express.Router();
 
@@ -59,7 +65,11 @@ router.post(
 
     try {
       const newSubcomment: SubcommentAttributes = await Subcomment.create({
-        id: uuidv4(), content, comment_id, owner_id, bill_id
+        id: uuidv4(),
+        content,
+        comment_id,
+        owner_id,
+        bill_id,
       });
 
       return res.status(201).json(newSubcomment);
