@@ -8,6 +8,7 @@ import {
   UpdateCommentRequest,
   SubcommentAttributes,
   CommentsSubcommentsBillResponse,
+  CommentsSubcommentsUserResponse,
 } from "../constants/constants";
 import Comment from "../models/commentModel";
 import Subcomment from "../models/subcommentModel";
@@ -46,6 +47,42 @@ router.get(
       }
 
       return res.status(200).json(comment);
+    } catch (error) {
+      logger.error(error.stack);
+      logger.error(error.message);
+      logger.error(error.errors[0].message);
+      return res.status(500).json({ error: error.errors[0].message });
+    }
+  },
+);
+
+router.get(
+  "/api/v1/comments/subcomments/user/:id",
+  async (req: Request, res: Response<CommentsSubcommentsUserResponse | ErrorType>) => {
+    const userId: string = req.params.id;
+    try {
+      const userComments: CommentAttributes[] = await Comment.findAll({
+        where: {
+          owner_id: userId,
+        },
+      });
+
+      const userSubcomments: SubcommentAttributes[] = await Subcomment.findAll({
+        where: {
+          owner_id: userId,
+        },
+      });
+
+      const responseData: CommentsSubcommentsUserResponse = {
+        userComments,
+        userSubcomments,
+      };
+
+      if (!responseData) {
+        return res.status(404).send("Comments and subcomments not found");
+      }
+
+      return res.status(200).json(responseData);
     } catch (error) {
       logger.error(error.stack);
       logger.error(error.message);

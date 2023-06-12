@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 
 app.get("/api/v1/comments", commentRouter);
 app.get("/api/v1/comments/:id", commentRouter);
+app.get("/api/v1/comments/subcomments/user/:id", commentRouter);
 app.get("/api/v1/comments/bill/:id", commentRouter);
 app.post("/api/v1/comments", commentRouter);
 app.put("/api/v1/comments/:id", commentRouter);

@@ -75,3 +75,8 @@ export interface CommentsSubcommentsBillResponse {
   commentsBill: CommentAttributes[];
   subcommentsBill: SubcommentAttributes[];
 }
+
+export interface CommentsSubcommentsUserResponse {
+  userComments: CommentAttributes[];
+  userSubcomments: SubcommentAttributes[];
+}
